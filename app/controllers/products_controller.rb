@@ -1,6 +1,7 @@
 class ProductsController < ApplicationController
   def index
-    @products = Product.page(params[:page]).per(10)
+    @q = Product.ransack(params[:q])
+    @products = @q.result(distinct: true).page(params[:page]).per(10)
 
     if params[:on_sale].present?
       @products = @products.where(is_on_sale: true).per(10)

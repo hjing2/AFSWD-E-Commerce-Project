@@ -19,6 +19,20 @@
   <% end %>
 </div>
 
+<div class="search">
+  <%= search_form_for @q, url: products_path, method: :get, local: true do |f| %>
+    <div class="field">
+      <%= f.label :product_name_cont, "Search by Keyword" %>
+      <%= f.search_field :product_name_cont, value: params.dig(:q, :product_name_cont) %>
+    </div>
+    <div class="field">
+      <%= f.label :category_id_eq, "Select Category" %>
+      <%= f.collection_select :category_id_eq, Category.all, :id, :category_name, include_blank: "All Categories" %>
+    </div>
+    <%= f.submit "Search" %>
+  <% end %>
+</div>
+
 <div class="products">
   <% if @products.present? %>
     <% @products.each do |product| %>
@@ -29,7 +43,7 @@
         <p>On Sale: <%= product.is_on_sale %></p>
         <p>New Product: <%= product.is_new %></p>
         <p>Recently Updated: <%= product.is_recently_updated %></p>
-        <%= image_tag product.image_url if product.image_url.present? %>
+        <%= image_tag product.image_url, style: "height: 200px; width: auto;"   if product.image_url.present? %>
       </div>
     <% end %>
   <% else %>

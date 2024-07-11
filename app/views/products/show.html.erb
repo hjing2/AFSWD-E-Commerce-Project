@@ -2,5 +2,5 @@
 <p><%= @product.description %></p>
 <p><%= number_to_currency(@product.price) %></p>
 <% if @product.image_url.present? %>
-  <%= image_tag @product.image_url %>
+  <%= image_tag @product.image_url , style: "height: 300px; width: auto;"  %>
 <% end %>

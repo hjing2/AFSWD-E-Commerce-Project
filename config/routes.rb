@@ -15,8 +15,8 @@ Rails.application.routes.draw do
       get 'products', to: 'categories#show'
     end
   end
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
+  get 'home/search', to: 'home#search', as: 'search_home'
   get 'products/index'
   get 'products/show'
   get 'categories/index'

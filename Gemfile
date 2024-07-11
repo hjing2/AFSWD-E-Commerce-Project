@@ -9,6 +9,7 @@ gem 'sassc'
 gem 'csv'
 gem 'carrierwave'
 gem 'mini_magick'
+gem 'ransack'
 
 
 ruby "3.3.0"

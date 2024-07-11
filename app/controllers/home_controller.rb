@@ -1,5 +1,9 @@
 class HomeController < ApplicationController
   def index
-    @products = Product.page(params[:page]).per(6)
+    if params[:search].present?
+      @products = Product.where("product_name LIKE ? OR description LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%").page(params[:page]).per(6)
+    else
+      @products = Product.page(params[:page]).per(6)
+    end
   end
 end
