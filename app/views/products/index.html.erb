@@ -1,0 +1,40 @@
+<h1>Products</h1>
+<%= render 'categories' %>
+
+<div class="filters">
+  <%= form_with(url: products_path, method: :get, local: true) do |form| %>
+    <div class="filter">
+      <%= form.label :on_sale, 'On Sale' %>
+      <%= form.check_box :on_sale, { checked: params[:on_sale].present? } %>
+    </div>
+    <div class="filter">
+      <%= form.label :new, 'New Products' %>
+      <%= form.check_box :new, { checked: params[:new].present? } %>
+    </div>
+    <div class="filter">
+      <%= form.label :recently_updated, 'Recently Updated' %>
+      <%= form.check_box :recently_updated, { checked: params[:recently_updated].present? } %>
+    </div>
+    <%= form.submit 'Filter' %>
+  <% end %>
+</div>
+
+<div class="products">
+  <% if @products.present? %>
+    <% @products.each do |product| %>
+      <div class="product">
+        <h2><%= link_to product.product_name, product_path(product) %></h2>
+        <p>App Description: <%= product.description %></p>
+        <p>Price: $<%= product.price %></p>
+        <p>On Sale: <%= product.is_on_sale %></p>
+        <p>New Product: <%= product.is_new %></p>
+        <p>Recently Updated: <%= product.is_recently_updated %></p>
+        <%= image_tag product.image_url if product.image_url.present? %>
+      </div>
+    <% end %>
+  <% else %>
+    <p>No products found.</p>
+  <% end %>
+</div>
+
+<%= paginate @products %>

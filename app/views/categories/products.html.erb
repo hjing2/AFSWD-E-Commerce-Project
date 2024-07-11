@@ -1,0 +1,16 @@
+<h1>Products in <%= @category.category_name %></h1>
+<%= render 'categories' %>
+<div class="products">
+  <% if @products.present? %>
+    <% @products.each do |product| %>
+      <div class="product">
+        <h2><%= link_to product.product_name, product_path(product) %></h2>
+        <p><%= product.description %></p>
+        <p><%= product.price %></p>
+        <%= image_tag product.image_url if product.image_url.present? %>
+      </div>
+    <% end %>
+  <% else %>
+    <p>No products found in this category.</p>
+  <% end %>
+</div>

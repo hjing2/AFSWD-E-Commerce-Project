@@ -1,0 +1,6 @@
+<h1><%= @product.product_name %></h1>
+<p><%= @product.description %></p>
+<p><%= number_to_currency(@product.price) %></p>
+<% if @product.image_url.present? %>
+  <%= image_tag @product.image_url %>
+<% end %>

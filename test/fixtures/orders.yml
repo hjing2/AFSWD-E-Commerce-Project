@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  total_price: 9.99
+  is_paid: false
+  is_shipped: false
+  address: one
+
+two:
+  user: two
+  total_price: 9.99
+  is_paid: false
+  is_shipped: false
+  address: two
