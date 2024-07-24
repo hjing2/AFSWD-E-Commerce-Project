@@ -6,8 +6,14 @@ class User < ApplicationRecord
 
   validates :user_name, presence: true
 
+  has_many :addresses, dependent: :destroy
+  accepts_nested_attributes_for :addresses, allow_destroy: true
+
+  def current_address
+    addresses.order(created_at: :desc).first || addresses.build
+  end
+
   has_many :orders
-  has_many :addresses
   has_many :shopping_carts
   has_many :order_items, through: :orders
 

@@ -18,10 +18,20 @@
         <ul>
           <li><%= link_to 'Home', root_path %></li>
           <li><%= link_to 'Products', products_path %></li>
+          <li><%= link_to 'My Shopping Cart', cart_path %></li>
           <li><%= link_to 'Contact', contact_path %></li>
           <li><%= link_to 'About', about_path %></li>
         </ul>
       </nav>
+      <div>
+        <% if user_signed_in? %>
+            <li><%= link_to 'Edit Profile', edit_user_registration_path %></li>
+            <li><%= button_to 'Logout', destroy_user_session_path, method: :delete %></li>
+          <% else %>
+            <li><%= link_to 'Login', new_user_session_path %></li>
+            <li><%= link_to 'Sign Up', new_user_registration_path %></li>
+          <% end %>
+        </div>
     </div>
   </header>
 
