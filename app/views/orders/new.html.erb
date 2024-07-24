@@ -3,17 +3,37 @@
 <%= form_with(model: @order, local: true) do |form| %>
   <div class="field">
     <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
-
-  <div class="field">
-    <%= form.label :address %>
-    <%= form.text_area :address %>
+    <%= form.text_field :name, value: current_user.user_name, readonly: true %>
   </div>
 
   <div class="field">
     <%= form.label :email %>
-    <%= form.email_field :email %>
+    <%= form.email_field :email, value: current_user.email, readonly: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :address %>
+    <%= form.text_area :address, value: current_user.current_address.address_line, readonly: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :city %>
+    <%= form.text_field :city, value: current_user.current_address.city, readonly: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :province %>
+    <%= form.text_field :province, value: current_user.current_address.province.name, readonly: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :postal_code %>
+    <%= form.text_field :postal_code, value: current_user.current_address.postal_code, readonly: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :country %>
+    <%= form.text_field :country, value: current_user.current_address.country, readonly: true %>
   </div>
 
   <div class="field">

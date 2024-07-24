@@ -1,25 +1,33 @@
 class OrdersController < ApplicationController
+  before_action :authenticate_user!
+
   def new
     @order = Order.new
     @cart = current_cart
   end
 
   def create
-    @order = Order.new(order_params)
-    @order.add_items_from_cart(current_cart)
+    @order = current_user.orders.build(order_params)
+    @order.address = current_user.current_address
+    @order.calculate_total_price
+
     if @order.save
-      session[:cart] = nil
-      redirect_to root_path, notice: 'Thank you for your order.'
+      save_order_items
+      session[:cart] = {}
+      redirect_to @order, notice: "Order successfully placed."
     else
-      @cart = current_cart
       render :new
     end
+  end
+
+  def show
+    @order = Order.find(params[:id])
   end
 
   private
 
   def order_params
-    params.require(:order).permit(:address_id)
+    params.require(:order).permit(:pay_type)
   end
 
   def calculate_total

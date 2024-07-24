@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   end
   resources :cart_items, only: [:create, :update, :destroy]
 
-  resources :orders, only: [:new, :create]
+  resources :orders, only: [:new, :create, :show]
 
   get 'home/search', to: 'home#search', as: 'search_home'
   get 'products/index'
