@@ -45,15 +45,15 @@
 <h2>Taxes</h2>
 <p>
   <strong>PST:</strong>
-  <%= number_to_currency(@order.total_price * @order.address.province.pst_rate / 100) %>
+  <%= number_to_currency(@order.pst_amount) %>
 </p>
 <p>
   <strong>GST:</strong>
-  <%= number_to_currency(@order.total_price * @order.address.province.gst_rate / 100) %>
+  <%= number_to_currency(@order.gst_amount) %>
 </p>
 <p>
   <strong>HST:</strong>
-  <%= number_to_currency(@order.total_price * @order.address.province.hst_rate / 100) %>
+  <%= number_to_currency(@order.hst_amount) %>
 </p>
 
 <p>

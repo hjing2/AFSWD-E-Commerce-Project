@@ -9,10 +9,11 @@ class OrdersController < ApplicationController
   def create
     @order = current_user.orders.build(order_params)
     @order.address = current_user.current_address
-    @order.calculate_total_price
 
     if @order.save
       save_order_items
+      @order.calculate_total_price
+      @order.save
       session[:cart] = {}
       redirect_to @order, notice: "Order successfully placed."
     else
@@ -28,15 +29,6 @@ class OrdersController < ApplicationController
 
   def order_params
     params.require(:order).permit(:pay_type)
-  end
-
-  def calculate_total
-    total = 0
-    current_cart.each do |product_id, quantity|
-      product = Product.find(product_id)
-      total += product.price * quantity
-    end
-    total
   end
 
   def save_order_items
