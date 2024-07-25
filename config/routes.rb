@@ -1,13 +1,5 @@
 Rails.application.routes.draw do
-  get 'orders/new'
-  get 'orders/create'
-  get 'cart_items/create'
-  get 'cart_items/update'
-  get 'cart_items/destroy'
-  get 'carts/show'
-  get 'categories/index'
-  get 'categories/show'
-  get 'categories/products'
+
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
@@ -28,7 +20,15 @@ Rails.application.routes.draw do
   end
   resources :cart_items, only: [:create, :update, :destroy]
 
-  resources :orders, only: [:new, :create, :show]
+  resources :orders, only: [:new, :create, :show, :index] do
+    collection do
+      post 'confirm', to: 'orders#confirm', as: 'confirm_order'
+    end
+    member do
+      get 'success', to: 'orders#success', as: 'success'
+    end
+  end
+
 
   get 'home/search', to: 'home#search', as: 'search_home'
   get 'products/index'
@@ -39,6 +39,16 @@ Rails.application.routes.draw do
   get 'home/index'
   get 'contact', to: 'contact#show', as: 'contact'
   get 'about', to: 'about#show', as: 'about'
+  get 'order_success/:id', to: 'orders#success', as: 'order_success'
+  get 'orders/new'
+  get 'orders/create'
+  get 'cart_items/create'
+  get 'cart_items/update'
+  get 'cart_items/destroy'
+  get 'carts/show'
+  get 'categories/index'
+  get 'categories/show'
+  get 'categories/products'
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   get "up" => "rails/health#show", as: :rails_health_check

@@ -1,6 +1,6 @@
 <h1>Checkout</h1>
 
-<%= form_with(model: @order, local: true) do |form| %>
+<%= form_with(model: @order, local: true, url: confirm_order_orders_path) do |form| %>
   <div class="field">
     <%= form.label :name %>
     <%= form.text_field :name, value: current_user.user_name, readonly: true %>
@@ -12,28 +12,28 @@
   </div>
 
   <div class="field">
-    <%= form.label :address %>
-    <%= form.text_area :address, value: current_user.current_address.address_line, readonly: true %>
+    <%= form.label :address_line, "Address" %>
+    <%= form.text_area :address_line %>
   </div>
 
   <div class="field">
     <%= form.label :city %>
-    <%= form.text_field :city, value: current_user.current_address.city, readonly: true %>
+    <%= form.text_field :city %>
   </div>
 
   <div class="field">
-    <%= form.label :province %>
-    <%= form.text_field :province, value: current_user.current_address.province.name, readonly: true %>
+    <%= form.label :province_id, "Province" %>
+    <%= form.collection_select :province_id, Province.all, :id, :name, prompt: "Select Province" %>
   </div>
 
   <div class="field">
     <%= form.label :postal_code %>
-    <%= form.text_field :postal_code, value: current_user.current_address.postal_code, readonly: true %>
+    <%= form.text_field :postal_code %>
   </div>
 
   <div class="field">
     <%= form.label :country %>
-    <%= form.text_field :country, value: current_user.current_address.country, readonly: true %>
+    <%= form.text_field :country, value: "Canada", readonly: true %>
   </div>
 
   <div class="field">
@@ -42,6 +42,6 @@
   </div>
 
   <div class="actions">
-    <%= form.submit "Place Order" %>
+    <%= form.submit "Confirm Address" %>
   </div>
 <% end %>

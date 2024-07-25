@@ -1,62 +1,70 @@
 <h1>Order Details</h1>
 
-<p>
-  <strong>Name:</strong>
-  <%= @order.user.user_name %>
-</p>
+<% if @order %>
+  <% if @order.user %>
+    <p>
+      <strong>Name:</strong>
+      <%= @order.user.user_name %>
+    </p>
 
-<p>
-  <strong>Email:</strong>
-  <%= @order.user.email %>
-</p>
+    <p>
+      <strong>Email:</strong>
+      <%= @order.user.email %>
+    </p>
+  <% else %>
+    <p>No user associated with this order.</p>
+  <% end %>
 
-<p>
-  <strong>Address:</strong>
-  <%= @order.address.address_line %>, <%= @order.address.city %>, <%= @order.address.province.name %> <%= @order.address.postal_code %>, <%= @order.address.country %>
-</p>
+  <p>
+    <strong>Address:</strong>
+    <%= @order.address_line %>, <%= @order.city %>, <%= @order.province.name %> <%= @order.postal_code %>, <%= @order.country %>
+  </p>
 
-<p>
-  <strong>Payment type:</strong>
-  <%= @order.pay_type %>
-</p>
+  <p>
+    <strong>Payment type:</strong>
+    <%= @order.pay_type %>
+  </p>
 
-<h2>Products</h2>
-<table>
-  <thead>
-    <tr>
-      <th>Product</th>
-      <th>Quantity</th>
-      <th>Price</th>
-      <th>Subtotal</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @order.order_items.each do |item| %>
+  <h2>Products</h2>
+  <table>
+    <thead>
       <tr>
-        <td><%= item.product.product_name %></td>
-        <td><%= item.quantity %></td>
-        <td><%= number_to_currency(item.product.price) %></td>
-        <td><%= number_to_currency(item.order_items_total_price) %></td>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Subtotal</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @order.order_items.each do |item| %>
+        <tr>
+          <td><%= item.product.product_name %></td>
+          <td><%= item.quantity %></td>
+          <td><%= number_to_currency(item.product.price) %></td>
+          <td><%= number_to_currency(item.order_items_total_price) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-<h2>Taxes</h2>
-<p>
-  <strong>PST:</strong>
-  <%= number_to_currency(@order.pst_amount) %>
-</p>
-<p>
-  <strong>GST:</strong>
-  <%= number_to_currency(@order.gst_amount) %>
-</p>
-<p>
-  <strong>HST:</strong>
-  <%= number_to_currency(@order.hst_amount) %>
-</p>
+  <h2>Taxes</h2>
+  <p>
+    <strong>PST:</strong>
+    <%= number_to_currency(@order.pst_amount) %>
+  </p>
+  <p>
+    <strong>GST:</strong>
+    <%= number_to_currency(@order.gst_amount) %>
+  </p>
+  <p>
+    <strong>HST:</strong>
+    <%= number_to_currency(@order.hst_amount) %>
+  </p>
 
-<p>
-  <strong>Total Price:</strong>
-  <%= number_to_currency(@order.total_price) %>
-</p>
+  <p>
+    <strong>Total Price:</strong>
+    <%= number_to_currency(@order.total_price) %>
+  </p>
+<% else %>
+  <p>Order not found.</p>
+<% end %>

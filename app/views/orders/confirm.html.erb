@@ -1,0 +1,68 @@
+<h1>Confirm Order Details</h1>
+
+<p>
+  <strong>Name:</strong>
+  <%= current_user.user_name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= current_user.email %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @order.address_line %>, <%= @order.city %>, <%= @order.province.name %> <%= @order.postal_code %>, <%= @order.country %>
+</p>
+
+<p>
+  <strong>Payment type:</strong>
+  <%= @order.pay_type %>
+</p>
+
+<h2>Products</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Subtotal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @order.order_items.each do |item| %>
+      <tr>
+        <td><%= item.product.product_name %></td>
+        <td><%= item.quantity %></td>
+        <td><%= number_to_currency(item.product.price) %></td>
+        <td><%= number_to_currency(item.order_items_total_price) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>Taxes</h2>
+<p>
+  <strong>PST:</strong>
+  <%= number_to_currency(@order.pst_amount) %>
+</p>
+<p>
+  <strong>GST:</strong>
+  <%= number_to_currency(@order.gst_amount) %>
+</p>
+<p>
+  <strong>HST:</strong>
+  <%= number_to_currency(@order.hst_amount) %>
+</p>
+
+<p>
+  <strong>Total Price:</strong>
+  <%= number_to_currency(@order.total_price) %>
+</p>
+
+<%= form_with model: @order, url: orders_path, method: :post do |form| %>
+  <div class="actions">
+    <%= form.submit "Place Order" %>
+  </div>
+<% end %>
