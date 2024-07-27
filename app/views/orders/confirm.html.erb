@@ -61,8 +61,36 @@
   <%= number_to_currency(@order.total_price) %>
 </p>
 
-<%= form_with model: @order, url: orders_path, method: :post do |form| %>
+<%= form_with model: @order, url: orders_path, method: :post, local: true do |form| %>
   <div class="actions">
+    <input type="hidden" name="stripeToken" id="stripeToken">
+    <div id="card-element"></div>
+    <div id="card-errors" role="alert"></div>
     <%= form.submit "Place Order" %>
   </div>
 <% end %>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  var stripe = Stripe('<%= Rails.application.credentials.dig(:stripe, :publishable_key) %>');
+  var elements = stripe.elements();
+  var card = elements.create('card');
+  card.mount('#card-element');
+
+  var form = document.querySelector('form');
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    stripe.createToken(card).then(function(result) {
+      if (result.error) {
+        // Inform the user if there was an error.
+        var errorElement = document.getElementById('card-errors');
+        errorElement.textContent = result.error.message;
+      } else {
+        // Send the token to your server.
+        document.getElementById('stripeToken').value = result.token.id;
+        form.submit();
+      }
+    });
+  });
+</script>

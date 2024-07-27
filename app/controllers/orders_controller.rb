@@ -32,9 +32,24 @@ class OrdersController < ApplicationController
     if @order.save
       clear_cart
       session.delete(:order_params)
-      @order.update(is_paid: true)
+
+      # Deal with payment
+      begin
+        charge = Stripe::Charge.create(
+          amount: (@order.total_price * 100).to_i, # to cent
+          currency: 'ucd',
+          source: params[:stripeToken],
+          description: "Order ##{@order.id}"
+        )
+
+      @order.update(is_paid: true, stripe_payment_id: charge.id, status: 'paid')
       redirect_to success_order_path(@order), notice: "Order successfully placed."
-    else
+    rescue Stripe::CardError => e
+      flash[:alert] = e.message
+      @order.update(status: 'failed')
+      render :confirm
+    end
+  else
       render :confirm
     end
   end
