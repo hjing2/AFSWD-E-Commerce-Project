@@ -10,7 +10,7 @@ class OrdersController < ApplicationController
 
   def confirm
     @order = Order.new(order_params)
-    session[:order_address] = order_params
+    session[:order_params] = order_params
     save_order_items_to_temp_order
     @order.calculate_total_price
     @cart = current_cart
@@ -32,7 +32,7 @@ class OrdersController < ApplicationController
     if @order.save
       clear_cart
       session.delete(:order_params)
-      @order.is_paid = true
+      @order.update(is_paid: true)
       redirect_to success_order_path(@order), notice: "Order successfully placed."
     else
       render :confirm
@@ -48,7 +48,7 @@ class OrdersController < ApplicationController
   end
 
   def show
-    @order = Order.find(params[:id])
+    @order = current_user.orders.find_by(id: params[:id])
   end
 
   def index
@@ -58,15 +58,7 @@ class OrdersController < ApplicationController
   private
 
   def order_params
-    params.require(:order).permit(:pay_type, :address_line, :city, :province_id, :postal_code, :country)
-  end
-
-  def show
-    @order = Order.find_by(id: params[:id])
-    unless @order
-      flash[:alert] = "Order not found."
-      redirect_to orders_path
-    end
+    params.require(:order).permit(:pay_type, :address_line, :city, :province_id, :postal_code, :country, order_items_attributes: [:id, :product_id, :quantity, :_destroy])
   end
 
   def save_order_items_to_temp_order

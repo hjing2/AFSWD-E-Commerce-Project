@@ -3,6 +3,7 @@
 <table>
   <thead>
     <tr>
+      <th>User Name</th>
       <th>Order Number</th>
       <th>Date</th>
       <th>Total Price</th>
@@ -13,6 +14,7 @@
   <tbody>
     <% @orders.each do |order| %>
       <tr>
+        <td><%= current_user.user_name %>
         <td><%= order.id %></td>
         <td><%= order.created_at.strftime("%Y-%m-%d") %></td>
         <td><%= number_to_currency(order.total_price) %></td>
