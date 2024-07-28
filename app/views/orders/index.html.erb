@@ -8,17 +8,19 @@
       <th>Date</th>
       <th>Total Price</th>
       <th>Status</th>
+      <th>Stripe Payment ID</th> <!-- 添加这一行 -->
       <th>Details</th>
     </tr>
   </thead>
   <tbody>
     <% @orders.each do |order| %>
       <tr>
-        <td><%= current_user.user_name %>
+        <td><%= current_user.user_name %></td>
         <td><%= order.id %></td>
         <td><%= order.created_at.strftime("%Y-%m-%d") %></td>
         <td><%= number_to_currency(order.total_price) %></td>
         <td><%= order.is_paid ? "Paid" : "Pending" %></td>
+        <td><%= order.stripe_payment_id %></td> <!-- 添加这一行 -->
         <td><%= link_to 'View Order Details', order_path(order) %></td>
       </tr>
     <% end %>

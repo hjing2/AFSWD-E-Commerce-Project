@@ -61,8 +61,69 @@
   <%= number_to_currency(@order.total_price) %>
 </p>
 
-<%= form_with model: @order, url: orders_path, method: :post do |form| %>
-  <div class="actions">
-    <%= form.submit "Place Order" %>
+<%= form_with model: @order, url: orders_path, method: :post, local: true, id: 'payment-form' do |form| %>
+  <div id="card-element">
+    <!-- Stripe Elements 将在这里插入信用卡输入框 -->
   </div>
+
+  <div id="card-errors" role="alert"></div>
+
+  <%= form.submit "Place Order", id: 'submit-button' %>
 <% end %>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  // 创建一个 Stripe 客户端
+  var stripe = Stripe('<%= Rails.application.credentials.dig(:stripe, :publishable_key) %>');
+  var elements = stripe.elements();
+
+  // 创建一个 card Element 并挂载到 #card-element div
+  var card = elements.create('card');
+  card.mount('#card-element');
+
+  // 处理实时验证错误
+  card.on('change', function(event) {
+    var displayError = document.getElementById('card-errors');
+    if (event.error) {
+      displayError.textContent = event.error.message;
+    } else {
+      displayError.textContent = '';
+    }
+  });
+
+  // 处理表单提交
+  var form = document.getElementById('payment-form');
+  var submitButton = document.getElementById('submit-button');
+
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    submitButton.disabled = true;
+
+    stripe.createPaymentMethod({
+      type: 'card',
+      card: card,
+    }).then(function(result) {
+      if (result.error) {
+        // 显示错误给顾客
+        var errorElement = document.getElementById('card-errors');
+        errorElement.textContent = result.error.message;
+        submitButton.disabled = false;
+      } else {
+        // 发送 paymentMethod.id 到服务器
+        stripePaymentMethodHandler(result.paymentMethod.id);
+      }
+    });
+  });
+
+  function stripePaymentMethodHandler(paymentMethodId) {
+    // 插入 payment method ID 到表单，然后提交
+    var form = document.getElementById('payment-form');
+    var hiddenInput = document.createElement('input');
+    hiddenInput.setAttribute('type', 'hidden');
+    hiddenInput.setAttribute('name', 'payment_method_id');
+    hiddenInput.setAttribute('value', paymentMethodId);
+    form.appendChild(hiddenInput);
+
+    form.submit();
+  }
+</script>

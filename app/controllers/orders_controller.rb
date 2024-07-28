@@ -32,12 +32,19 @@ class OrdersController < ApplicationController
     if @order.save
       clear_cart
       session.delete(:order_params)
-      @order.update(is_paid: true)
-      redirect_to success_order_path(@order), notice: "Order successfully placed."
+
+      # 处理支付
+      if create_stripe_payment(@order)
+        redirect_to success_order_path(@order), notice: "Order successfully placed and payment processed."
+      else
+        render :confirm
+      end
     else
       render :confirm
     end
   end
+
+
 
   def clear_cart
     session[:cart] = {}
@@ -60,6 +67,36 @@ class OrdersController < ApplicationController
   def order_params
     params.require(:order).permit(:pay_type, :address_line, :city, :province_id, :postal_code, :country, order_items_attributes: [:id, :product_id, :quantity, :_destroy])
   end
+
+  def create_stripe_payment(order)
+    begin
+      intent = Stripe::PaymentIntent.create({
+        amount: (order.total_price * 100).to_i,
+        currency: 'cad',
+        payment_method: params[:payment_method_id],
+        confirmation_method: 'manual',
+        confirm: true,
+        description: "Order ##{order.id}",
+        return_url: success_order_url(order) # 添加 return_url 参数
+      })
+
+      if intent.status == 'succeeded'
+        order.update(stripe_payment_id: intent.id, is_paid: true)
+        return true
+      else
+        # 处理其他状态，如 'requires_action'
+        flash[:alert] = "Payment requires further action. Please try again."
+        return false
+      end
+    rescue Stripe::CardError => e
+      flash[:alert] = e.message
+      return false
+    rescue Stripe::StripeError => e
+      flash[:alert] = "An error occurred while processing your payment: #{e.message}"
+      return false
+    end
+  end
+
 
   def save_order_items_to_temp_order
     @cart = current_cart

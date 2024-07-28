@@ -7,7 +7,7 @@ class Order < ApplicationRecord
 
   PAYMENT_TYPES = ["Credit card", "PayPal", "Check"]
 
-  validates :pay_type, :address_line, :city, :postal_code, :country, presence: true
+  validates :pay_type, :address_line, :city, :postal_code, :country, :province_id, presence: true
 
   accepts_nested_attributes_for :order_items, allow_destroy: true
 
