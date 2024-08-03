@@ -1,27 +1,27 @@
-<h1>Past Orders</h1>
+<h1 class="text-3xl font-bold text-appleDarkGray mb-6">Past Orders</h1>
 
-<table>
+<table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md mb-6">
   <thead>
     <tr>
-      <th>User Name</th>
-      <th>Order Number</th>
-      <th>Date</th>
-      <th>Total Price</th>
-      <th>Status</th>
-      <th>Stripe Payment ID</th> <!-- 添加这一行 -->
-      <th>Details</th>
+      <th class="px-4 py-2 text-left text-appleDarkGray">User Name</th>
+      <th class="px-4 py-2 text-left text-appleDarkGray">Order Number</th>
+      <th class="px-4 py-2 text-left text-appleDarkGray">Date</th>
+      <th class="px-4 py-2 text-left text-appleDarkGray">Total Price</th>
+      <th class="px-4 py-2 text-left text-appleDarkGray">Status</th>
+      <th class="px-4 py-2 text-left text-appleDarkGray">Stripe Payment ID</th> <!-- 添加这一行 -->
+      <th class="px-4 py-2 text-left text-appleDarkGray">Details</th>
     </tr>
   </thead>
   <tbody>
     <% @orders.each do |order| %>
-      <tr>
-        <td><%= current_user.user_name %></td>
-        <td><%= order.id %></td>
-        <td><%= order.created_at.strftime("%Y-%m-%d") %></td>
-        <td><%= number_to_currency(order.total_price) %></td>
-        <td><%= order.is_paid ? "Paid" : "Pending" %></td>
-        <td><%= order.stripe_payment_id %></td> <!-- 添加这一行 -->
-        <td><%= link_to 'View Order Details', order_path(order) %></td>
+      <tr class="border-t border-gray-300">
+        <td class="px-4 py-2 text-gray-700"><%= current_user.user_name %></td>
+        <td class="px-4 py-2 text-gray-700"><%= order.id %></td>
+        <td class="px-4 py-2 text-gray-700"><%= order.created_at.strftime("%Y-%m-%d") %></td>
+        <td class="px-4 py-2 text-gray-700"><%= number_to_currency(order.total_price) %></td>
+        <td class="px-4 py-2 text-gray-700"><%= order.is_paid ? "Paid" : "Pending" %></td>
+        <td class="px-4 py-2 text-gray-700"><%= order.stripe_payment_id %></td> <!-- 添加这一行 -->
+        <td class="px-4 py-2 text-gray-700"><%= link_to 'View Order Details', order_path(order), class: "text-appleBlue hover:text-appleDarkGray transition-colors duration-200" %></td>
       </tr>
     <% end %>
   </tbody>

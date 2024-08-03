@@ -1,74 +1,76 @@
-<h1>Confirm Order Details</h1>
+<h1 class="text-3xl font-bold text-appleDarkGray mb-6">Confirm Order Details</h1>
 
-<p>
-  <strong>Name:</strong>
-  <%= current_user.user_name %>
+<p class="mb-4">
+  <strong class="block text-appleDarkGray">Name:</strong>
+  <span class="text-gray-700"><%= current_user.user_name %></span>
 </p>
 
-<p>
-  <strong>Email:</strong>
-  <%= current_user.email %>
+<p class="mb-4">
+  <strong class="block text-appleDarkGray">Email:</strong>
+  <span class="text-gray-700"><%= current_user.email %></span>
 </p>
 
-<p>
-  <strong>Address:</strong>
-  <%= @order.address_line %>, <%= @order.city %>, <%= @order.province.name %> <%= @order.postal_code %>, <%= @order.country %>
+<p class="mb-4">
+  <strong class="block text-appleDarkGray">Address:</strong>
+  <span class="text-gray-700"><%= @order.address_line %>, <%= @order.city %>, <%= @order.province.name %> <%= @order.postal_code %>, <%= @order.country %></span>
 </p>
 
-<p>
-  <strong>Payment type:</strong>
-  <%= @order.pay_type %>
+<p class="mb-4">
+  <strong class="block text-appleDarkGray">Payment type:</strong>
+  <span class="text-gray-700"><%= @order.pay_type %></span>
 </p>
 
-<h2>Products</h2>
-<table>
+<h2 class="text-2xl font-bold text-appleDarkGray mb-4">Products</h2>
+<table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md mb-6">
   <thead>
     <tr>
-      <th>Product</th>
-      <th>Quantity</th>
-      <th>Price</th>
-      <th>Subtotal</th>
+      <th class="px-4 py-2 text-left text-appleDarkGray">Product</th>
+      <th class="px-4 py-2 text-left text-appleDarkGray">Quantity</th>
+      <th class="px-4 py-2 text-left text-appleDarkGray">Price</th>
+      <th class="px-4 py-2 text-left text-appleDarkGray">Subtotal</th>
     </tr>
   </thead>
   <tbody>
     <% @order.order_items.each do |item| %>
-      <tr>
-        <td><%= item.product.product_name %></td>
-        <td><%= item.quantity %></td>
-        <td><%= number_to_currency(item.product.price) %></td>
-        <td><%= number_to_currency(item.order_items_total_price) %></td>
+      <tr class="border-t border-gray-300">
+        <td class="px-4 py-2 text-gray-700"><%= item.product.product_name %></td>
+        <td class="px-4 py-2 text-gray-700"><%= item.quantity %></td>
+        <td class="px-4 py-2 text-gray-700"><%= number_to_currency(item.product.price) %></td>
+        <td class="px-4 py-2 text-gray-700"><%= number_to_currency(item.order_items_total_price) %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<h2>Taxes</h2>
-<p>
-  <strong>PST:</strong>
-  <%= number_to_currency(@order.pst_amount) %>
+<h2 class="text-2xl font-bold text-appleDarkGray mb-4">Taxes</h2>
+<p class="mb-2">
+  <strong class="block text-appleDarkGray">PST:</strong>
+  <span class="text-gray-700"><%= number_to_currency(@order.pst_amount) %></span>
 </p>
-<p>
-  <strong>GST:</strong>
-  <%= number_to_currency(@order.gst_amount) %>
+<p class="mb-2">
+  <strong class="block text-appleDarkGray">GST:</strong>
+  <span class="text-gray-700"><%= number_to_currency(@order.gst_amount) %></span>
 </p>
-<p>
-  <strong>HST:</strong>
-  <%= number_to_currency(@order.hst_amount) %>
-</p>
-
-<p>
-  <strong>Total Price:</strong>
-  <%= number_to_currency(@order.total_price) %>
+<p class="mb-4">
+  <strong class="block text-appleDarkGray">HST:</strong>
+  <span class="text-gray-700"><%= number_to_currency(@order.hst_amount) %></span>
 </p>
 
-<%= form_with model: @order, url: orders_path, method: :post, local: true, id: 'payment-form' do |form| %>
-  <div id="card-element">
+<p class="mb-6">
+  <strong class="block text-appleDarkGray">Total Price:</strong>
+  <span class="text-gray-900 font-bold"><%= number_to_currency(@order.total_price) %></span>
+</p>
+
+<%= form_with model: @order, url: orders_path, method: :post, local: true, id: 'payment-form', class: "space-y-4" do |form| %>
+  <div id="card-element" class="border border-gray-300 p-4 rounded-lg">
     <!-- Stripe Elements 将在这里插入信用卡输入框 -->
   </div>
 
-  <div id="card-errors" role="alert"></div>
+  <div id="card-errors" role="alert" class="text-red-500 mt-2"></div>
 
-  <%= form.submit "Place Order", id: 'submit-button' %>
+  <div class="actions mt-4">
+    <%= form.submit "Place Order", id: 'submit-button', class: "px-6 py-2 bg-appleBlue text-white font-semibold rounded-lg hover:bg-appleDarkGray transition-colors duration-200" %>
+  </div>
 <% end %>
 
 <script src="https://js.stripe.com/v3/"></script>

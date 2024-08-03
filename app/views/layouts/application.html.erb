@@ -4,42 +4,50 @@
   <title>Ogoki Learning Inc</title>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-  <%= stylesheet_link_tag 'application', media: 'all' %>
-
+  <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
 </head>
 
-<body>
-  <header>
-    <div class="header-left">
-      <%= image_tag 'OgokiLearningLogo.png', alt: 'Ogoki Learning Inc Logo', width: 200 %>
-    </div>
-    <div class="header-right">
-      <nav>
-        <ul>
-          <li><%= link_to 'Home', root_path %></li>
-          <li><%= link_to 'Products', products_path %></li>
-          <li><%= link_to 'My Shopping Cart', cart_path %></li>
-          <li><%= link_to 'Contact', contact_path %></li>
-          <li><%= link_to 'About', about_path %></li>
-        </ul>
-      </nav>
-      <div>
-        <% if user_signed_in? %>
-            <li><%= link_to 'Edit Profile', edit_user_registration_path %></li>
-            <li><%= button_to 'Logout', destroy_user_session_path, method: :delete %></li>
+<body class="font-sans bg-appleGray text-appleDarkGray">
+  <header class="bg-white shadow-md">
+    <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+      <div class="header-left">
+        <%= image_tag 'OgokiLearningLogo.png', alt: 'Ogoki Learning Inc Logo', width: 200 %>
+      </div>
+      <div class="header-right">
+        <nav>
+          <ul class="flex space-x-6">
+            <li><%= link_to 'Home', root_path, class: "text-appleDarkGray hover:text-appleBlue" %></li>
+            <li><%= link_to 'Products', products_path, class: "text-appleDarkGray hover:text-appleBlue" %></li>
+            <li><%= link_to 'My Shopping Cart', cart_path, class: "text-appleDarkGray hover:text-appleBlue" %></li>
+            <li><%= link_to 'Contact', contact_path, class: "text-appleDarkGray hover:text-appleBlue" %></li>
+            <li><%= link_to 'About', about_path, class: "text-appleDarkGray hover:text-appleBlue" %></li>
+          </ul>
+        </nav>
+        <div class="flex space-x-4">
+          <% if user_signed_in? %>
+            <ul class="flex space-x-4">
+              <li><%= link_to 'Edit Profile', edit_user_registration_path, class: "text-appleDarkGray hover:text-appleBlue" %></li>
+              <li><%= button_to 'Logout', destroy_user_session_path, method: :delete, class: "text-appleDarkGray hover:text-appleBlue" %></li>
+            </ul>
           <% else %>
-            <li><%= link_to 'Login', new_user_session_path %></li>
-            <li><%= link_to 'Sign Up', new_user_registration_path %></li>
+            <ul class="flex space-x-4">
+              <li><%= link_to 'Login', new_user_session_path, class: "text-appleDarkGray hover:text-appleBlue" %></li>
+              <li><%= link_to 'Sign Up', new_user_registration_path, class: "text-appleDarkGray hover:text-appleBlue" %></li>
+            </ul>
           <% end %>
         </div>
+      </div>
     </div>
   </header>
 
-  <%= yield %>
+  <main class="container mx-auto px-6 py-8">
+    <%= yield %>
+  </main>
 
-  <footer>
-    <p>© Ogoki Learning Inc - 2023 | Download our Ojibway App Today! by Ojibway App | All Rights Reserved</p>
+  <footer class="bg-white border-t border-appleGray mt-8">
+    <div class="container mx-auto px-6 py-4">
+      <p class="text-center text-appleDarkGray">© Ogoki Learning Inc - 2023 | Download our Ojibway App Today! by Ojibway App | All Rights Reserved</p>
+    </div>
   </footer>
 </body>
 </html>

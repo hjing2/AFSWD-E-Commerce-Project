@@ -1,53 +1,59 @@
-<h1>Products</h1>
+<h1 class="text-3xl font-bold text-appleDarkGray mb-6">Products</h1>
 <%= render 'categories' %>
 
-<div class="filters">
+<div class="filters mb-6">
   <%= form_with(url: products_path, method: :get, local: true) do |form| %>
-    <div class="filter">
-      <%= form.label :on_sale, 'On Sale' %>
-      <%= form.check_box :on_sale, { checked: params[:on_sale].present? } %>
+    <div class="flex space-x-4 mb-4">
+      <div class="filter flex items-center space-x-2">
+        <%= form.check_box :on_sale, { checked: params[:on_sale].present?, class: "form-checkbox h-5 w-5 text-appleBlue" } %>
+        <%= form.label :on_sale, 'On Sale', class: "text-appleDarkGray" %>
+      </div>
+      <div class="filter flex items-center space-x-2">
+        <%= form.check_box :new, { checked: params[:new].present?, class: "form-checkbox h-5 w-5 text-appleBlue" } %>
+        <%= form.label :new, 'New Products', class: "text-appleDarkGray" %>
+      </div>
+      <div class="filter flex items-center space-x-2">
+        <%= form.check_box :recently_updated, { checked: params[:recently_updated].present?, class: "form-checkbox h-5 w-5 text-appleBlue" } %>
+        <%= form.label :recently_updated, 'Recently Updated', class: "text-appleDarkGray" %>
+      </div>
+      <%= form.submit 'Filter', class: "px-4 py-2 bg-appleBlue text-white font-semibold rounded-lg hover:bg-appleDarkGray transition-colors duration-200" %>
     </div>
-    <div class="filter">
-      <%= form.label :new, 'New Products' %>
-      <%= form.check_box :new, { checked: params[:new].present? } %>
-    </div>
-    <div class="filter">
-      <%= form.label :recently_updated, 'Recently Updated' %>
-      <%= form.check_box :recently_updated, { checked: params[:recently_updated].present? } %>
-    </div>
-    <%= form.submit 'Filter' %>
   <% end %>
 </div>
 
-<div class="search">
+<div class="search mb-6">
   <%= search_form_for @q, url: products_path, method: :get, local: true do |f| %>
-    <div class="field">
-      <%= f.label :product_name_cont, "Search by Keyword" %>
-      <%= f.search_field :product_name_cont, value: params.dig(:q, :product_name_cont) %>
+    <div class="flex space-x-4 mb-4">
+      <div class="field w-full">
+        <%= f.label :product_name_cont, "Search by Keyword", class: "block text-appleDarkGray mb-2" %>
+        <%= f.search_field :product_name_cont, value: params.dig(:q, :product_name_cont), class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-appleBlue" %>
+      </div>
+      <div class="field w-full">
+        <%= f.label :category_id_eq, "Select Category", class: "block text-appleDarkGray mb-2" %>
+        <%= f.collection_select :category_id_eq, Category.all, :id, :category_name, { include_blank: "All Categories" }, class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-appleBlue" %>
+      </div>
+      <%= f.submit "Search", class: "self-end px-4 py-2 bg-appleBlue text-white font-semibold rounded-lg hover:bg-appleDarkGray transition-colors duration-200" %>
     </div>
-    <div class="field">
-      <%= f.label :category_id_eq, "Select Category" %>
-      <%= f.collection_select :category_id_eq, Category.all, :id, :category_name, include_blank: "All Categories" %>
-    </div>
-    <%= f.submit "Search" %>
   <% end %>
 </div>
 
-<div class="products">
+<div class="products grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
   <% if @products.present? %>
     <% @products.each do |product| %>
-      <div class="product">
-        <h2><%= link_to product.product_name, product_path(product) %></h2>
-        <p>App Description: <%= product.description %></p>
-        <p>Price: $<%= product.price %></p>
-        <p>On Sale: <%= product.is_on_sale %></p>
-        <p>New Product: <%= product.is_new %></p>
-        <p>Recently Updated: <%= product.is_recently_updated %></p>
-        <%= image_tag product.image_url, style: "height: 200px; width: auto;"   if product.image_url.present? %>
+      <div class="product p-4 bg-white shadow-md rounded-lg">
+        <h2 class="text-xl font-semibold text-appleDarkGray mb-2">
+          <%= link_to product.product_name, product_path(product), class: "hover:text-appleBlue transition-colors duration-200" %>
+        </h2>
+        <p class="text-gray-700 mb-2">App Description: <%= product.description %></p>
+        <p class="text-gray-900 font-bold mb-2">Price: $<%= product.price %></p>
+        <p class="text-gray-700 mb-2">On Sale: <%= product.is_on_sale %></p>
+        <p class="text-gray-700 mb-2">New Product: <%= product.is_new %></p>
+        <p class="text-gray-700 mb-4">Recently Updated: <%= product.is_recently_updated %></p>
+        <%= image_tag product.image_url, class: "w-full h-70 object-cover rounded-lg" if product.image_url.present? %>
       </div>
     <% end %>
   <% else %>
-    <p>No products found.</p>
+    <p class="text-gray-700">No products found.</p>
   <% end %>
 </div>
 

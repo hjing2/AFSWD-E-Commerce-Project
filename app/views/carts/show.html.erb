@@ -1,40 +1,42 @@
-<h1>Your Shopping Cart</h1>
+<h1 class="text-3xl font-bold text-appleDarkGray mb-6">Your Shopping Cart</h1>
 
 <% if @cart.any? %>
-  <table>
+  <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
     <thead>
       <tr>
-        <th>Product</th>
-        <th>Quantity</th>
-        <th>Price</th>
-        <th>Subtotal</th>
-        <th></th>
+        <th class="px-4 py-2 text-left text-appleDarkGray">Product</th>
+        <th class="px-4 py-2 text-left text-appleDarkGray">Quantity</th>
+        <th class="px-4 py-2 text-left text-appleDarkGray">Price</th>
+        <th class="px-4 py-2 text-left text-appleDarkGray">Subtotal</th>
+        <th class="px-4 py-2 text-left text-appleDarkGray"></th>
       </tr>
     </thead>
     <tbody>
       <% @cart.each do |product_id, quantity| %>
         <% product = Product.find(product_id) %>
-        <tr>
-          <td><%= product.product_name %></td>
-          <td>
-            <%= form_with url: cart_item_path(product_id), method: :patch, local: true do %>
+        <tr class="border-t border-gray-300">
+          <td class="px-4 py-2 text-gray-700"><%= product.product_name %></td>
+          <td class="px-4 py-2 text-gray-700">
+            <%= form_with url: cart_item_path(product_id), method: :patch, local: true, class: "flex items-center space-x-2" do %>
               <%= hidden_field_tag :product_id, product_id %>
-              <%= number_field_tag :quantity, quantity, min: 1 %>
-              <%= submit_tag "Update" %>
+              <%= number_field_tag :quantity, quantity, min: 1, class: "w-16 px-2 py-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-appleBlue" %>
+              <%= submit_tag "Update", class: "px-4 py-1 bg-appleBlue text-white font-semibold rounded-lg hover:bg-appleDarkGray transition-colors duration-200" %>
             <% end %>
           </td>
-          <td><%= number_to_currency(product.price) %></td>
-          <td><%= number_to_currency(product.price * quantity) %></td>
-          <td>
+          <td class="px-4 py-2 text-gray-700"><%= number_to_currency(product.price) %></td>
+          <td class="px-4 py-2 text-gray-700"><%= number_to_currency(product.price * quantity) %></td>
+          <td class="px-4 py-2 text-gray-700">
             <%= form_with url: cart_item_path(product_id), method: :delete, local: true do %>
-              <%= submit_tag "Remove" %>
+              <%= submit_tag "Remove", class: "px-4 py-1 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors duration-200" %>
             <% end %>
           </td>
         </tr>
       <% end %>
     </tbody>
   </table>
-  <%= link_to "Checkout", new_order_path, class: "button" %>
+  <div class="mt-6">
+    <%= link_to "Checkout", new_order_path, class: "px-6 py-2 bg-appleBlue text-white font-semibold rounded-lg hover:bg-appleDarkGray transition-colors duration-200" %>
+  </div>
 <% else %>
-  <p>Your cart is empty.</p>
+  <p class="text-gray-700">Your cart is empty.</p>
 <% end %>

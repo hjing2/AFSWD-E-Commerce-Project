@@ -1,53 +1,51 @@
-<h1>Order Details</h1>
+<h1 class="text-3xl font-bold text-appleDarkGray mb-6">Order Details</h1>
 
 <% if @order %>
   <% if @order.user %>
-    <p>
-      <strong>Name:</strong>
-      <%= @order.user.user_name %>
+    <p class="mb-4">
+      <strong class="block text-appleDarkGray">Name:</strong>
+      <span class="text-gray-700"><%= @order.user.user_name %></span>
     </p>
 
-    <p>
-      <strong>Email:</strong>
-      <%= @order.user.email %>
+    <p class="mb-4">
+      <strong class="block text-appleDarkGray">Email:</strong>
+      <span class="text-gray-700"><%= @order.user.email %></span>
     </p>
   <% else %>
-    <p>No user associated with this order.</p>
+    <p class="text-gray-700">No user associated with this order.</p>
   <% end %>
 
-  <p>
-    <strong>Address:</strong>
-    <%= @order.address_line %>, <%= @order.city %>, <%= @order.province&.name %> <%= @order.postal_code %>, <%= @order.country %>
+  <p class="mb-4">
+    <strong class="block text-appleDarkGray">Address:</strong>
+    <span class="text-gray-700"><%= @order.address_line %>, <%= @order.city %>, <%= @order.province&.name %> <%= @order.postal_code %>, <%= @order.country %></span>
   </p>
 
-  <p>
-    <strong>Payment type:</strong>
-    <%= @order.pay_type %>
+  <p class="mb-4">
+    <strong class="block text-appleDarkGray">Payment type:</strong>
+    <span class="text-gray-700"><%= @order.pay_type %></span>
   </p>
 
-  <h2>Products</h2>
-  <table>
+  <h2 class="text-2xl font-bold text-appleDarkGray mb-4">Products</h2>
+  <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md mb-6">
     <thead>
       <tr>
-        <th>Product</th>
-        <th>Quantity</th>
-        <th>Price</th>
-        <th>Subtotal</th>
+        <th class="px-4 py-2 text-left text-appleDarkGray">Product</th>
+        <th class="px-4 py-2 text-left text-appleDarkGray">Quantity</th>
+        <th class="px-4 py-2 text-left text-appleDarkGray">Price</th>
+        <th class="px-4 py-2 text-left text-appleDarkGray">Subtotal</th>
       </tr>
     </thead>
     <tbody>
       <% @order.order_items.each do |item| %>
-        <tr>
-          <td><%= item.product.product_name %></td>
-          <td><%= item.quantity %></td>
-          <td><%= number_to_currency(item.product.price) %></td>
-          <td><%= number_to_currency(item.order_items_total_price) %></td>
+        <tr class="border-t border-gray-300">
+          <td class="px-4 py-2 text-gray-700"><%= item.product.product_name %></td>
+          <td class="px-4 py-2 text-gray-700"><%= item.quantity %></td>
+          <td class="px-4 py-2 text-gray-700"><%= number_to_currency(item.product.price) %></td>
+          <td class="px-4 py-2 text-gray-700"><%= number_to_currency(item.order_items_total_price) %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
-
-
 <% else %>
-  <p>Order not found.</p>
+  <p class="text-gray-700">Order not found.</p>
 <% end %>
