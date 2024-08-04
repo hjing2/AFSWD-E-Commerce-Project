@@ -27,7 +27,9 @@
           <% if user_signed_in? %>
             <ul class="flex space-x-4">
               <li><%= link_to 'Edit Profile', edit_user_registration_path, class: "text-appleDarkGray hover:text-appleBlue" %></li>
-              <li><%= button_to 'Logout', destroy_user_session_path, method: :delete, class: "text-appleDarkGray hover:text-appleBlue" %></li>
+              <li>
+                <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "text-appleDarkGray hover:text-appleBlue", data: { method: :delete } %>
+              </li>
             </ul>
           <% else %>
             <ul class="flex space-x-4">
