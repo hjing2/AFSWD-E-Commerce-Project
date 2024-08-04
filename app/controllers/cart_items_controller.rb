@@ -9,7 +9,7 @@ class CartItemsController < ApplicationController
   def update
     product = Product.find(params[:product_id])
     quantity = params[:quantity].to_i
-    if quantity > 0
+    if quantity.positive?
       current_cart[product.id.to_s] = quantity
     else
       current_cart.delete(product.id.to_s)
