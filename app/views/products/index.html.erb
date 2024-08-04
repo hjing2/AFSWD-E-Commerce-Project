@@ -5,16 +5,16 @@
   <%= form_with(url: products_path, method: :get, local: true) do |form| %>
     <div class="flex space-x-4 mb-4">
       <div class="filter flex items-center space-x-2">
-        <%= form.check_box :on_sale, { checked: params[:on_sale].present?, class: "form-checkbox h-5 w-5 text-appleBlue" } %>
+        <%= form.check_box :on_sale, { checked: params[:on_sale] == '1', class: "form-checkbox h-5 w-5 text-appleBlue" }, '1', '0' %>
         <%= form.label :on_sale, 'On Sale', class: "text-appleDarkGray" %>
       </div>
       <div class="filter flex items-center space-x-2">
-        <%= form.check_box :new, { checked: params[:new].present?, class: "form-checkbox h-5 w-5 text-appleBlue" } %>
-        <%= form.label :new, 'New Products', class: "text-appleDarkGray" %>
+        <%= form.check_box :new_products, { checked: params[:new_products] == '1', class: "form-checkbox h-5 w-5 text-appleBlue" }, '1', '0' %>
+        <%= form.label :new_products, 'New Products (Last 3 Days)', class: "text-appleDarkGray" %>
       </div>
       <div class="filter flex items-center space-x-2">
-        <%= form.check_box :recently_updated, { checked: params[:recently_updated].present?, class: "form-checkbox h-5 w-5 text-appleBlue" } %>
-        <%= form.label :recently_updated, 'Recently Updated', class: "text-appleDarkGray" %>
+        <%= form.check_box :recently_updated, { checked: params[:recently_updated] == '1', class: "form-checkbox h-5 w-5 text-appleBlue" }, '1', '0' %>
+        <%= form.label :recently_updated, 'Recently Updated (Last 3 Days)', class: "text-appleDarkGray" %>
       </div>
       <%= form.submit 'Filter', class: "px-4 py-2 bg-appleBlue text-white font-semibold rounded-lg hover:bg-appleDarkGray transition-colors duration-200" %>
     </div>
