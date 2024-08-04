@@ -3,7 +3,7 @@
 <p class="text-xl font-semibold text-gray-900 mb-6"><%= number_to_currency(@product.price) %></p>
 
 <% if @product.image_url.present? %>
-  <%= image_tag @product.image_url, class: "w-300 h-auto object-cover rounded-lg mb-6" %>
+  <%= image_tag @product.image_url, alt: "@product.product_name", class: "w-300 h-auto object-cover rounded-lg mb-6" %>
 <% end %>
 
 <%= form_with url: cart_items_path, method: :post, local: true do %>
