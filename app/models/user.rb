@@ -23,4 +23,5 @@ class User < ApplicationRecord
   def profile_image_variant(size)
     profile_image.variant(resize_to_limit: size).processed
   end
+  # in view: <%= image_tag current_user.profile_image_variant([300, 300]) %>
 end
