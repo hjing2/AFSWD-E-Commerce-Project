@@ -17,4 +17,10 @@ class User < ApplicationRecord
   has_many :shopping_carts
   has_many :order_items, through: :orders
 
+  has_one_attached :profile_image
+
+  # Method to resize images using ActiveStorage
+  def profile_image_variant(size)
+    profile_image.variant(resize_to_limit: size).processed
+  end
 end
