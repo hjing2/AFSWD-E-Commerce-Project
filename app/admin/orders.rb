@@ -14,6 +14,9 @@ ActiveAdmin.register Order do
     column :postal_code
     column :country
     column :pay_type
+    column :is_new do |order|
+      order.is_new? ? 'YES' : 'NO'
+    end
     column :created_at
     column :updated_at
     actions
@@ -36,7 +39,7 @@ ActiveAdmin.register Order do
       f.input :city
       f.input :province
       f.input :postal_code
-      f.input :country
+      f.input :country, as: :string
       f.input :pay_type
     end
     f.actions

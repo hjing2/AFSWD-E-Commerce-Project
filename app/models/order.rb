@@ -16,7 +16,8 @@ class Order < ApplicationRecord
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    ["address_id", "address_line", "city", "country", "created_at", "id", "is_paid", "is_shipped", "pay_type", "postal_code", "province_id", "total_price", "updated_at", "user_id"]
+    ["address_id", "address_line", "city", "country", "created_at", "id", "is_paid", "is_shipped",
+     "pay_type", "postal_code", "province_id", "total_price", "updated_at", "user_id"]
   end
 
   def calculate_total_price
@@ -48,5 +49,9 @@ class Order < ApplicationRecord
     subtotal = order_items.sum(&:order_items_total_price)
     hst_rate = province.hst_rate
     subtotal * hst_rate / 100
+  end
+
+  def is_new?
+    created_at >= 3.days.ago
   end
 end
