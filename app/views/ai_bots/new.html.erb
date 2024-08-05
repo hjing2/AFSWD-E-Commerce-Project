@@ -3,11 +3,11 @@
 
   <%= form_with url: ai_bots_path, method: :post, local: true, class: "space-y-4" do |form| %>
     <div class="field">
-      <%= form.label :query, "Ask AI Bot:", class: "block text-appleDarkGray mb-2" %>
+      <%= form.label :query, "Write your question here:", class: "block text-appleDarkGray mb-2" %>
       <%= form.text_area :query, class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-appleBlue" %>
     </div>
     <div class="actions">
-      <%= form.submit "Ask", class: "px-6 py-2 bg-appleBlue text-white font-semibold rounded-lg hover:bg-appleDarkGray transition-colors duration-200" %>
+      <%= form.submit "Ask AI Bot", class: "px-6 py-2 bg-appleBlue text-white font-semibold rounded-lg hover:bg-appleDarkGray transition-colors duration-200" %>
     </div>
   <% end %>
 
