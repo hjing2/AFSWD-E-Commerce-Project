@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'ai_bots/new'
+  get 'ai_bots/create'
 
 
   devise_for :admin_users, ActiveAdmin::Devise.config
@@ -29,6 +31,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resource :ai_bots, only: [:new, :create]
 
   get 'home/search', to: 'home#search', as: 'search_home'
   get 'products/index'

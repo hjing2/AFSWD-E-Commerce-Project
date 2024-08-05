@@ -82,3 +82,7 @@ gem "tailwindcss-rails", "~> 2.6"
 
 gem 'rubocop'
 gem 'rubocop-rails'
+
+gem 'dotenv-rails', groups: [:development, :test]
+
+gem 'faraday', '~> 1.0'
