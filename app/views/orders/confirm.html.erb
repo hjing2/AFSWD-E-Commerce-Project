@@ -63,7 +63,7 @@
 
 <%= form_with model: @order, url: orders_path, method: :post, local: true, id: 'payment-form', class: "space-y-4" do |form| %>
   <div id="card-element" class="border border-gray-300 p-4 rounded-lg">
-    <!-- Stripe Elements 将在这里插入信用卡输入框 -->
+    <!-- Stripe Elements -->
   </div>
 
   <div id="card-errors" role="alert" class="text-red-500 mt-2"></div>
